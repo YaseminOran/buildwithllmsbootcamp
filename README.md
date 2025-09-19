@@ -131,8 +131,8 @@ Bu bootcamp sonunda katılımcılar:
 
 ### 1. Repository'yi Clone Edin
 ```bash
-git clone https://github.com/YaseminOran/buildwithllmsbootcamp_2.git
-cd buildwithllmsbootcamp_2
+git clone https://github.com/YaseminOran/buildwithllmsbootcamp.git
+cd buildwithllmsbootcamp
 ```
 
 ### 2. Python Environment Hazırlayın
@@ -154,26 +154,27 @@ Her hafta kendi sanal ortamına sahiptir. Detaylar için ilgili hafta klasörün
 ## 📁 Proje Yapısı
 
 ```
-buildwithllmsbootcamp_2/
+buildwithllmsbootcamp/
 ├── README.md                 # Bu dosya
-├── hafta_1/                  # Modül 1: LLM Temelleri
-│   ├── README.md
-│   ├── requirements.txt
-│   └── projeler/
-├── hafta_2/                  # Modül 2: Prompt Engineering
-│   ├── README.md
-│   ├── requirements.txt
-│   └── projeler/
-├── hafta_3/                  # Modül 3: Hugging Face Transformers
-├── hafta_4/                  # Modül 4: Embedding & Vector DB
-├── hafta_5/                  # Modül 5: LangChain
-├── hafta_6/                  # Modül 6: Fine-Tuning
-├── hafta_7/                  # Modül 7: Deployment
-├── hafta_8/                  # Modül 8: Sistem Mimarisi
-└── resources/                # Ortak kaynaklar
-    ├── datasets/
-    ├── models/
-    └── docs/
+├── .gitignore               # Git ignore kuralları
+├── hafta_1/                 # Modül 1: LLM Temelleri
+│   ├── turkish_simple.py
+│   ├── microsoft.py
+│   ├── qwen.py
+│   └── llm_1/ (venv)
+└── hafta_2/                 # Modül 2: Prompt Engineering
+    ├── README.md
+    ├── requirements.txt
+    ├── 01_zero_shot.py
+    ├── 02_few_shot.py
+    ├── 03_chain_of_thought.py
+    ├── 04_role_based.py
+    ├── 05_chatcompletion_api.py
+    ├── 06_function_calling.py
+    ├── 07_chatbot_with_functions.py
+    ├── 08_simple_chatbot.py
+    ├── 09_web_chatbot.py
+    └── prompt/ (venv)
 ```
 
 ## 🎓 Değerlendirme
