@@ -1,0 +1,4 @@
+openai==1.108.1
+python-dotenv==1.1.1
+flask==3.0.0
+requests==2.31.0
