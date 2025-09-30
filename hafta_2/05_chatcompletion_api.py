@@ -67,7 +67,7 @@ def conversation_management():
     })
     
     # Kullanıcının ikinci sorusu
-    conversation.append({
+    conversation.append({ #extend
         "role": "user", 
         "content": "Hangi konulardan başlamalıyım?"
     })
@@ -125,7 +125,7 @@ def streaming_example():
         messages=[
             {"role": "user", "content": "Machine Learning konusunda kısa bir özet yaz."}
         ],
-        stream=True,
+        stream=True, #cevap parça parça token token gelir
         max_tokens=200
     )
     
@@ -134,7 +134,7 @@ def streaming_example():
         if chunk.choices[0].delta.content is not None:
             content = chunk.choices[0].delta.content
             full_response += content
-            print(content, end="", flush=True)
+            print(content, end="", flush=True) 
     
     print()  # Yeni satır
     return full_response

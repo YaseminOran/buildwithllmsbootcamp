@@ -1,0 +1,112 @@
+# PyTorch ve temel bağımlılıklar
+torch>=2.0.0
+torchvision>=0.15.0
+torchaudio>=2.0.0
+
+# Hugging Face Transformers
+transformers>=4.30.0
+datasets>=2.12.0
+tokenizers>=0.13.0
+accelerate>=0.20.0
+
+# Model optimizasyonu ve quantization
+bitsandbytes>=0.39.0
+optimum>=1.8.0
+
+# Veri işleme ve analiz
+numpy>=1.24.0
+pandas>=2.0.0
+scipy>=1.10.0
+
+# Grafik ve görselleştirme
+matplotlib>=3.7.0
+seaborn>=0.12.0
+plotly>=5.14.0
+
+# Sistem ve performans izleme
+psutil>=5.9.0
+GPUtil>=1.4.0
+py-cpuinfo>=9.0.0
+
+# JSON ve veri formatları
+jsonlines>=3.1.0
+
+# Jupyter notebook desteği
+jupyter>=1.0.0
+ipywidgets>=8.0.0
+notebook>=6.5.0
+
+# API ve web servisleri
+requests>=2.31.0
+flask>=2.3.0
+fastapi>=0.100.0
+uvicorn>=0.22.0
+
+# Gelişmiş modeller için
+sentence-transformers>=2.2.0
+spacy>=3.6.0
+
+# Görüntü işleme (eğer gerekli olursa)
+Pillow>=10.0.0
+opencv-python>=4.8.0
+
+# Model servis ve deployment
+onnx>=1.14.0
+onnxruntime>=1.15.0
+
+# Utilities
+tqdm>=4.65.0
+rich>=13.4.0
+click>=8.1.0
+
+# Test ve kalite kontrolü
+pytest>=7.4.0
+black>=23.0.0
+flake8>=6.0.0
+
+# Memory profiling
+memory-profiler>=0.61.0
+pympler>=0.9
+
+# Çoklu işlemci desteği
+multiprocess>=0.70.0
+
+# Gelişmiş tokenization
+tiktoken>=0.4.0
+
+# Audio processing (eğer ses modelleri kullanılacaksa)
+librosa>=0.10.0
+soundfile>=0.12.0
+
+# NLP utilities
+nltk>=3.8.0
+textblob>=0.17.0
+
+# Configuration management
+pyyaml>=6.0
+omegaconf>=2.3.0
+
+# Logging
+loguru>=0.7.0
+
+# Progress bars
+alive-progress>=3.1.0
+
+# Model hub utilities
+huggingface-hub>=0.16.0
+
+# Performance monitoring
+wandb>=0.15.0
+tensorboard>=2.13.0
+
+# Date/time utilities
+python-dateutil>=2.8.0
+
+# Scientific computing
+scikit-learn>=1.3.0
+
+# File handling
+pathlib2>=2.3.7
+
+# Environment variables
+python-dotenv>=1.0.0

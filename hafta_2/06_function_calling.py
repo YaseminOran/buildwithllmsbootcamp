@@ -437,4 +437,4 @@ if __name__ == "__main__":
     print("\n🎯 İnteraktif moda geçmek için main() fonksiyonunu çalıştırın!")
     
     # İnteraktif mod için uncomment edin:
-    # main()
+    main()

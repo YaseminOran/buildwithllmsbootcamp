@@ -66,7 +66,7 @@ def zero_shot_summary():
     
     prompt = f"""Aşağıdaki metni 2-3 cümleyle özetle:
 
-{text}
+     {text}
 
 Özet:"""
 

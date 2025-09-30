@@ -24,15 +24,15 @@ Bu bootcamp, Large Language Models (LLM) teknolojisini kullanarak pratik uygulam
   - API güvenliği ve rate limiting
 - **Pratik Projeler**: Akıllı chatbot sistemi, function calling uygulamaları
 
-### [Modül 3: Hugging Face Transformers Derinlemesine](./hafta_3/)
+### [Modül 3: AutoTokenizer, AutoModel ve Pipeline Optimizasyonu](./hafta_3/)
 - **Süre**: 1 Hafta
 - **Konular**:
-  - Transformers kütüphanesi detaylı kullanımı
-  - Pre-trained modellerin yüklenmesi ve kullanımı
-  - Pipeline'lar ve custom task'lar
-  - Model hub ve community modelleri
-  - Tokenizer'lar ve özel tokenization
-- **Pratik Projeler**: Multi-task NLP uygulaması, custom pipeline geliştirme
+  - AutoTokenizer & AutoModel yapısı ve pipeline kullanımı
+  - GPT, BERT ve T5 modellerinin karşılaştırması
+  - CPU/GPU performans yönetimi ve model optimizasyonu
+  - Pipeline ile performans ölçümü ve kıyaslama
+  - Model quantization ve batch processing
+- **Pratik Projeler**: Model karşılaştırma benchmark'ı, performans optimizasyon araçları
 
 ### [Modül 4: Embedding, Vector Database ve Semantic Search](./hafta_4/)
 - **Süre**: 1 Hafta
@@ -98,8 +98,9 @@ Bu bootcamp sonunda katılımcılar:
 
 ### Core Technologies
 - **Python** - Ana programlama dili
+- **PyTorch** - Deep learning framework (Hafta 3+)
+- **Transformers** - Hugging Face model kütüphanesi
 - **OpenAI API** - LLM servisleri
-- **Hugging Face** - Model hub ve araçlar
 - **LangChain** - LLM uygulama framework'ü
 
 ### Databases & Vector Stores
@@ -119,7 +120,8 @@ Bu bootcamp sonunda katılımcılar:
 - **Python** programlama (orta seviye)
 - **Git** ve version control
 - **REST API** temel bilgisi
-- **Linux/Unix** command line kullanımı
+- **Linux/Unix** command line kullanımı (macOS/Linux)
+- **Command Prompt/PowerShell** kullanımı (Windows)
 
 ### Önerilen Bilgiler
 - Machine Learning temel kavramları
@@ -143,13 +145,21 @@ source bootcamp_env/bin/activate  # Linux/Mac
 # bootcamp_env\Scripts\activate  # Windows
 ```
 
-### 3. Her Modül İçin Ayrı Environment
-Her hafta kendi sanal ortamına sahiptir. Detaylar için ilgili hafta klasörüne bakın.
+### 3. Hafta 3 Hızlı Başlangıç
+```bash
+cd hafta_3
+
+# macOS/Linux
+./start.sh
+
+# Windows
+start.bat
+```
 
 ### 4. API Keys Hazırlayın
-- OpenAI API Key
-- Hugging Face Token
-- Pinecone API Key (4. hafta için)
+- OpenAI API Key (Hafta 2 için)
+- Hugging Face Token (Hafta 3+ için)
+- Pinecone API Key (Hafta 4 için)
 
 ## 📁 Proje Yapısı
 
@@ -162,19 +172,31 @@ buildwithllmsbootcamp/
 │   ├── microsoft.py
 │   ├── qwen.py
 │   └── llm_1/ (venv)
-└── hafta_2/                 # Modül 2: Prompt Engineering
-    ├── README.md
-    ├── requirements.txt
-    ├── 01_zero_shot.py
-    ├── 02_few_shot.py
-    ├── 03_chain_of_thought.py
-    ├── 04_role_based.py
-    ├── 05_chatcompletion_api.py
-    ├── 06_function_calling.py
-    ├── 07_chatbot_with_functions.py
-    ├── 08_simple_chatbot.py
-    ├── 09_web_chatbot.py
-    └── prompt/ (venv)
+├── hafta_2/                 # Modül 2: Prompt Engineering
+│   ├── README.md
+│   ├── requirements.txt
+│   ├── 01_zero_shot.py
+│   ├── 02_few_shot.py
+│   ├── 03_chain_of_thought.py
+│   ├── 04_role_based.py
+│   ├── 05_chatcompletion_api.py
+│   ├── 06_function_calling.py
+│   ├── 07_chatbot_with_functions.py
+│   ├── 08_simple_chatbot.py
+│   ├── 09_web_chatbot.py
+│   └── prompt/ (venv)
+└── hafta_3/                 # Modül 3: Pipeline Optimizasyonu
+    ├── README.md            # Modül açıklaması
+    ├── SETUP.md             # Detaylı kurulum kılavuzu
+    ├── requirements.txt     # Python bağımlılıkları
+    ├── start.sh             # macOS/Linux kurulum scripti
+    ├── start.bat            # Windows kurulum scripti
+    ├── .gitignore           # Hafta 3 özel ignore kuralları
+    ├── 01_autotokenizer_automodel.py
+    ├── 02_gpt_bert_t5_comparison.py
+    ├── 03_cpu_gpu_optimization.py
+    ├── 04_performance_measurement.py
+    └── llm_bootcamp_env/ (venv)
 ```
 
 ## 🎓 Değerlendirme
@@ -205,3 +227,25 @@ Katkılarınızı memnuniyetle karşılıyoruz! Lütfen [CONTRIBUTING.md](CONTRI
 **🚀 Build with LLMs Bootcamp - Future of AI Development Starts Here!**
 
 *Son güncelleme: Eylül 2024*
+
+## 🎯 Hafta 3 Özel Notları
+
+### Cross-Platform Desteği
+Hafta 3 modülü tüm işletim sistemlerinde çalışır:
+- **macOS**: Native MPS (Apple Silicon) desteği
+- **Linux**: CUDA GPU desteği 
+- **Windows**: CUDA GPU ve CPU desteği
+
+### Sistem Gereksinimleri
+- **Minimum**: 8 GB RAM, Python 3.8+
+- **Önerilen**: 16 GB RAM, GPU (CUDA/MPS)
+- **Disk**: 10 GB boş alan (model cache için)
+
+### Hızlı Kurulum
+```bash
+cd hafta_3
+chmod +x start.sh  # sadece ilk seferde
+./start.sh         # macOS/Linux
+# veya
+start.bat          # Windows
+```

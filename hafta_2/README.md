@@ -102,3 +102,5 @@ python 09_web_chatbot.py  # Web tarayıcıda http://localhost:5000
 6. **09**: Web arayüzü entegrasyonu
 
 ⭐ **Ana odak noktaları**: 06 ve 07 arasındaki inheritance ilişkisini anlamak
+
+port kapatmak için > lsof -ti:5000 | xargs kill -9

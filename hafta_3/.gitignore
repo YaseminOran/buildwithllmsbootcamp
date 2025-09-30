@@ -1,0 +1,184 @@
+# Sanal ortam
+llm_bootcamp_env/
+venv/
+env/
+.env
+.venv
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyTorch model dosyaları
+*.pth
+*.pt
+*.ckpt
+*.bin
+*.safetensors
+
+# Hugging Face cache
+.cache/
+transformers_cache/
+huggingface_hub/
+
+# Model indirme cache'leri
+~/.cache/huggingface/
+~/.cache/torch/
+models/
+checkpoints/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Log files
+*.log
+logs/
+wandb/
+tensorboard_logs/
+
+# Performance monitoring
+mlruns/
+.wandb/
+
+# Test artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+coverage.xml
+*.cover
+.hypothesis/
+
+# Large data files
+*.csv
+*.json
+*.jsonl
+*.parquet
+*.h5
+*.hdf5
+data/
+datasets/
+
+# Media files
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.mp4
+*.wav
+*.mp3
+
+# Exception: Keep benchmark results
+!benchmark_results.json
+!performance_*.json
+
+# GPU memory dumps
+core.*
+
+# CUDA cache
+.nv/
+
+# Environment variables
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Package managers
+node_modules/
+package-lock.json
+yarn.lock
+
+# Documentation build
+docs/_build/
+site/
+
+# Backup files
+*.bak
+*.backup
+
+# Editor temp files
+.#*
+\#*#
+
+# Profiling
+*.prof
+*.profile
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Compressed files
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Memory dumps
+*.dmp
+
+# Local configuration
+config.local.yaml
+config.local.json
+local_settings.py
+
+# Output files
+output/
+results/
+exports/
+
+# Model outputs
+generated_texts/
+predictions/
+evaluations/
+
+# Quick test output
+quick_test_output.txt

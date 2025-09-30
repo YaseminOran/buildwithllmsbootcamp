@@ -16,7 +16,7 @@ def marketing_expert_role():
     messages = [
         {
             "role": "system",
-            "content": """Sen deneyimli bir dijital pazarlama uzmanısın. 10 yıllık tecriben var. 
+            "content": """Sen deneyimli bir dijital pazarlama uzmanısın. 10 yıllık tecrüben var. 
             E-ticaret, sosyal medya pazarlama ve marka stratejileri konularında uzmansın. 
             Pratik, uygulanabilir ve ölçülebilir öneriler verirsin."""
         },

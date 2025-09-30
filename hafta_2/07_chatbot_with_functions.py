@@ -11,7 +11,11 @@ from openai import OpenAI
 from dotenv import load_dotenv
 
 # 06'daki FunctionCallingChatbot'u import et
-from function_calling import FunctionCallingChatbot
+import importlib.util
+spec = importlib.util.spec_from_file_location("function_calling", "06_function_calling.py")
+function_calling = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(function_calling)
+FunctionCallingChatbot = function_calling.FunctionCallingChatbot
 
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
@@ -267,4 +271,4 @@ if __name__ == "__main__":
     print("\n🎯 İnteraktif moda geçmek için main() fonksiyonunu çalıştırın!")
     
     # İnteraktif mod için uncomment edin:
-    # main()
+    main()
