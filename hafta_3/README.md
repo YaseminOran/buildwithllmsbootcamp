@@ -83,7 +83,7 @@ chmod +x start.sh
 #### Windows
 ```cmd
 cd hafta_3
-start.bat
+.\start.bat
 ```
 
 ### 📝 Manuel Kurulum
