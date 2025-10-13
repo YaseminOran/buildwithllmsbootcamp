@@ -44,6 +44,7 @@ collection = client.create_collection(
     name=collection_name,
     metadata={"hnsw:space": "cosine"}  # Cosine similarity kullan
 )
+#client = chromadb.PersistentClient(path="./chroma_store")  # disk'e yaz
 
 print(f"✅ Collection oluşturuldu: {collection_name}")
 print(f"📊 Similarity metric: cosine")

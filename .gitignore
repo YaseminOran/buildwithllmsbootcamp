@@ -126,3 +126,16 @@ logs/
 # Temporary files
 tmp/
 temp/
+
+# LangChain specific
+langchain.db
+.langchain/
+
+# Chroma vector database
+chroma_db/
+*.chroma
+
+# Homework solutions (students should not commit)
+homework_solution/
+*_homework_solution/
+*_odev_*

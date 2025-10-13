@@ -44,15 +44,15 @@ Bu bootcamp, Large Language Models (LLM) teknolojisini kullanarak pratik uygulam
   - Embedding modelleri karşılaştırması
 - **Pratik Projeler**: Semantic search motoru, RAG tabanlı Q&A sistemi
 
-### [Modül 5: LangChain ile Çok Adımlı Uygulama Geliştirme](./hafta_5/)
+### [Modül 5: İleri Düzey LangChain - Chain, Memory, Tools ve Streaming](./hafta_5/)
 - **Süre**: 1 Hafta
 - **Konular**:
-  - LangChain framework'ü derinlemesine
-  - Chain'ler ve Agent'lar
-  - Memory yönetimi ve conversation handling
-  - Tool integration ve custom tools
-  - Multi-agent sistemler
-- **Pratik Projeler**: AI asistan uygulaması, document analysis sistemi
+  - Chain yapıları (LLMChain, SequentialChain, Custom Chains)
+  - Memory yönetimi (Buffer, Window, Summary, Hybrid Memory)
+  - Tool integration ve Agent'lar (Custom Tools, ReAct Agents)
+  - Senaryo bazlı uygulamalar (Müşteri hizmetleri, İçerik oluşturma)
+  - Streaming output ve canlı veri akışı (Real-time responses)
+- **Pratik Projeler**: Akıllı müşteri destek sistemi, streaming chat uygulaması
 
 ### [Modül 6: Fine-Tuning ve Hafif Model Eğitimi](./hafta_6/)
 - **Süre**: 1 Hafta
@@ -185,18 +185,36 @@ buildwithllmsbootcamp/
 │   ├── 08_simple_chatbot.py
 │   ├── 09_web_chatbot.py
 │   └── prompt/ (venv)
-└── hafta_3/                 # Modül 3: Pipeline Optimizasyonu
+├── hafta_3/                 # Modül 3: Pipeline Optimizasyonu
+│   ├── README.md            # Modül açıklaması
+│   ├── SETUP.md             # Detaylı kurulum kılavuzu
+│   ├── requirements.txt     # Python bağımlılıkları
+│   ├── start.sh             # macOS/Linux kurulum scripti
+│   ├── start.bat            # Windows kurulum scripti
+│   ├── .gitignore           # Hafta 3 özel ignore kuralları
+│   ├── 01_autotokenizer_automodel.py
+│   ├── 02_gpt_bert_t5_comparison.py
+│   ├── 03_cpu_gpu_optimization.py
+│   ├── 04_performance_measurement.py
+│   └── llm_bootcamp_env/ (venv)
+├── hafta_4/                 # Modül 4: Vector Search & RAG
+│   ├── README.md
+│   ├── requirements.txt
+│   ├── simple_rag_demo.py
+│   ├── chroma_vector_search.py
+│   ├── homework.md
+│   └── images/
+└── hafta_5/                 # Modül 5: İleri LangChain
     ├── README.md            # Modül açıklaması
-    ├── SETUP.md             # Detaylı kurulum kılavuzu
     ├── requirements.txt     # Python bağımlılıkları
-    ├── start.sh             # macOS/Linux kurulum scripti
-    ├── start.bat            # Windows kurulum scripti
-    ├── .gitignore           # Hafta 3 özel ignore kuralları
-    ├── 01_autotokenizer_automodel.py
-    ├── 02_gpt_bert_t5_comparison.py
-    ├── 03_cpu_gpu_optimization.py
-    ├── 04_performance_measurement.py
-    └── llm_bootcamp_env/ (venv)
+    ├── setup_venv.py        # Otomatik kurulum scripti
+    ├── test_installation.py # Kurulum test scripti
+    ├── 1_chains_basic.py    # Chain yapıları
+    ├── 2_memory_examples.py # Memory yönetimi
+    ├── 3_tools_and_agents.py # Tools ve Agents
+    ├── 4_scenario_applications.py # Senaryo uygulamaları
+    ├── 5_streaming_examples.py # Streaming output
+    └── homework.md          # Hafta 5 ödev
 ```
 
 ## 🎓 Değerlendirme
