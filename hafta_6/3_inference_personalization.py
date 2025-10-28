@@ -49,55 +49,126 @@ class PersonalizedInference:
         
         self.model.eval()
     
-    def generate_text(self, prompt, max_length=100, temperature=0.7, top_p=0.9):
+    def generate_text(self, prompt, max_new_tokens=50, temperature=0.7, top_p=0.9, 
+                     deterministic=False):
         """
-        Text generation
+        Text generation with improved tokenization and parameters
         """
-        inputs = self.tokenizer.encode(prompt, return_tensors="pt")
+        # Proper tokenization with attention mask
+        inputs = self.tokenizer(
+            prompt, 
+            return_tensors="pt", 
+            padding=True, 
+            truncation=True
+        )
         
+        # Move to device
         if torch.cuda.is_available():
-            inputs = inputs.cuda()
+            inputs = {k: v.cuda() for k, v in inputs.items()}
+        
+        # Set pad token if not exists
+        if self.tokenizer.pad_token is None:
+            self.tokenizer.pad_token = self.tokenizer.eos_token
+        
+        # Generation parameters
+        generation_kwargs = {
+            "max_new_tokens": max_new_tokens,  # Only new tokens, not total
+            "pad_token_id": self.tokenizer.eos_token_id,
+            "eos_token_id": self.tokenizer.eos_token_id,
+        }
+        
+        if deterministic:
+            # Deterministic generation for factual/technical content
+            generation_kwargs.update({
+                "do_sample": False,
+                "temperature": 0.0,
+                "top_p": 1.0,
+            })
+        else:
+            # Creative generation
+            generation_kwargs.update({
+                "do_sample": True,
+                "temperature": temperature,
+                "top_p": top_p,
+                "top_k": 50,
+            })
         
         with torch.no_grad():
             outputs = self.model.generate(
-                inputs,
-                max_length=max_length,
-                temperature=temperature,
-                top_p=top_p,
-                do_sample=True,
-                pad_token_id=self.tokenizer.eos_token_id
+                **inputs,
+                **generation_kwargs
             )
         
-        generated_text = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
-        return generated_text[len(prompt):].strip()
+        # Decode only the new tokens
+        new_tokens = outputs[0][inputs['input_ids'].shape[-1]:]
+        generated_text = self.tokenizer.decode(new_tokens, skip_special_tokens=True)
+        return generated_text.strip()
     
-    def classify_text(self, text):
+    def classify_text(self, text, label_names=None):
         """
-        Text classification
+        Text classification with proper output formatting
         """
-        inputs = self.tokenizer(text, return_tensors="pt", truncation=True, padding=True)
+        # Proper tokenization
+        inputs = self.tokenizer(
+            text, 
+            return_tensors="pt", 
+            truncation=True, 
+            padding=True,
+            max_length=512
+        )
         
+        # Move to device
         if torch.cuda.is_available():
             inputs = {k: v.cuda() for k, v in inputs.items()}
         
         with torch.no_grad():
             outputs = self.model(**inputs)
             predictions = torch.nn.functional.softmax(outputs.logits, dim=-1)
+            probabilities = predictions.cpu().numpy()[0]
+            predicted_class = probabilities.argmax()
         
-        return predictions.cpu().numpy()[0]
+        # Format output with labels
+        result = {
+            "predicted_class": int(predicted_class),
+            "probabilities": probabilities.tolist(),
+            "confidence": float(probabilities[predicted_class])
+        }
+        
+        if label_names:
+            result["predicted_label"] = label_names[predicted_class]
+            result["all_predictions"] = {
+                label_names[i]: float(prob) 
+                for i, prob in enumerate(probabilities)
+            }
+        
+        return result
 
-def load_lora_model(base_model_path, lora_adapter_path):
+def load_lora_model(base_model_path, lora_adapter_path, merge_adapters=False):
     """
-    LoRA adapter ile model yükleme
+    LoRA adapter ile model yükleme (geliştirilmiş)
     """
     print("LoRA modeli yükleniyor...")
     
-    # Base model
+    # Base model with device mapping
     tokenizer = AutoTokenizer.from_pretrained(base_model_path)
-    base_model = AutoModelForCausalLM.from_pretrained(base_model_path)
+    base_model = AutoModelForCausalLM.from_pretrained(
+        base_model_path,
+        device_map="auto",  # Automatic device placement
+        torch_dtype="auto"  # Automatic dtype selection
+    )
+    
+    # Set pad token
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
     
     # LoRA adapter yükleme
     model = PeftModel.from_pretrained(base_model, lora_adapter_path)
+    model.eval()  # Set to evaluation mode
+    
+    # Optional: merge adapters for faster inference
+    if merge_adapters:
+        print("LoRA adapter'ları base model ile birleştiriliyor...")
+        model = model.merge_and_unload()
     
     return model, tokenizer
 
@@ -118,6 +189,50 @@ def demonstrate_inference_optimization():
     
     for technique, description in techniques.items():
         print(f"- {technique}: {description}")
+
+def load_quantized_model(model_path, quantization="8bit"):
+    """
+    Quantized model yükleme örneği
+    """
+    print(f"Model {quantization} quantization ile yükleniyor...")
+    
+    if quantization == "8bit":
+        # 8-bit quantization
+        model = AutoModelForCausalLM.from_pretrained(
+            model_path,
+            load_in_8bit=True,
+            device_map="auto",
+            torch_dtype=torch.float16
+        )
+    elif quantization == "4bit":
+        # 4-bit quantization (requires bitsandbytes)
+        from transformers import BitsAndBytesConfig
+        
+        quantization_config = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_compute_dtype=torch.float16,
+            bnb_4bit_use_double_quant=True,
+            bnb_4bit_quant_type="nf4"
+        )
+        
+        model = AutoModelForCausalLM.from_pretrained(
+            model_path,
+            quantization_config=quantization_config,
+            device_map="auto"
+        )
+    else:
+        # Standard loading
+        model = AutoModelForCausalLM.from_pretrained(
+            model_path,
+            device_map="auto",
+            torch_dtype="auto"
+        )
+    
+    tokenizer = AutoTokenizer.from_pretrained(model_path)
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
+    
+    return model, tokenizer
 
 def create_personalized_chatbot():
     """
@@ -231,23 +346,40 @@ def create_inference_pipeline():
     
     # Pipeline code örneği
     pipeline_example = '''
-# Hugging Face Pipeline kullanımı
-from transformers import pipeline
+# Hugging Face Pipeline kullanımı (iyileştirilmiş)
+from transformers import pipeline, AutoTokenizer
+
+# Tokenizer yükle ve pad token ayarla
+tokenizer = AutoTokenizer.from_pretrained("./fine_tuned_model")
+if tokenizer.pad_token is None:
+    tokenizer.pad_token = tokenizer.eos_token
 
 # Text generation pipeline
 generator = pipeline(
     "text-generation",
     model="./fine_tuned_model",
-    tokenizer="./fine_tuned_model",
-    device=0 if torch.cuda.is_available() else -1
+    tokenizer=tokenizer,
+    device=0 if torch.cuda.is_available() else -1,
+    torch_dtype="auto"
 )
 
-# Kullanım
-result = generator(
+# Kullanım - deterministik mod
+result_factual = generator(
     "Yapay zeka nedir?",
-    max_length=100,
-    temperature=0.7,
-    pad_token_id=50256
+    max_new_tokens=50,
+    do_sample=False,
+    temperature=0.0,
+    pad_token_id=tokenizer.eos_token_id
+)
+
+# Kullanım - yaratıcı mod  
+result_creative = generator(
+    "Bir zamanlar...",
+    max_new_tokens=100,
+    do_sample=True,
+    temperature=0.8,
+    top_p=0.9,
+    pad_token_id=tokenizer.eos_token_id
 )
 '''
     print(f"\nPipeline Kod Örneği:\n{pipeline_example}")
@@ -299,8 +431,38 @@ if __name__ == "__main__":
     print("\n" + "=" * 50)
     print("Demonstrasyon tamamlandı!")
     
+    # Geliştirilmiş örnekler
+    print("\n=== Pratik Kullanım Örnekleri ===")
+    
+    # Deterministik vs Yaratıcı örneği
+    example_usage = '''
+# Deterministik üretim örneği (teknik/faktüel içerik için)
+factual_result = inference_engine.generate_text(
+    "Python'da liste nedir?",
+    max_new_tokens=50,
+    deterministic=True  # Tutarlı, tekrarlanabilir sonuçlar
+)
+
+# Yaratıcı üretim örneği (hikaye/blog için)  
+creative_result = inference_engine.generate_text(
+    "Bir zamanlar uzak bir galakside...",
+    max_new_tokens=100,
+    temperature=0.8,
+    deterministic=False  # Yaratıcı, çeşitli sonuçlar
+)
+
+# Sınıflandırma örneği (etiket adları ile)
+classification_result = inference_engine.classify_text(
+    "Bu film gerçekten harikaydi!",
+    label_names=["Negatif", "Pozitif"]
+)
+print(f"Tahmin: {classification_result['predicted_label']}")
+print(f"Güven: {classification_result['confidence']:.2f}")
+'''
+    print(example_usage)
+    
     # Gerçek model inference örneği (uncomment to run)
     # model_path = "./fine_tuned_model"  # Trained model path
     # inference_engine = PersonalizedInference(model_path)
-    # result = inference_engine.generate_text("Merhaba, nasılsın?")
+    # result = inference_engine.generate_text("Merhaba, nasılsın?", deterministic=False)
     # print(f"Generated: {result}")
